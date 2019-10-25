@@ -23,7 +23,7 @@ class PostgresDb(object):
                 db_version = cursor.fetchone()
                 print(db_version)
 
-                engine = create_engine(DATABASE_URI)
+                engine = create_engine(DATABASE_URL)
 
                 Session = sessionmaker(bind=engine)
                 session = Session()
