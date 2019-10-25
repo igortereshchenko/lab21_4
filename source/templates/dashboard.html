@@ -1,0 +1,61 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<br><br>
+<h1>1) Количество студентов в группе каждого факультета (pie plot)</h1>
+<hr>
+<h2>Search panel:</h2>
+<form class="form"  method = post >
+
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">{{group_form.faculty.label}}</th>
+            <th scope="col">{{group_form.name.label}}</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> {{group_form.faculty(class_="form-control")}}</td>
+                <td> {{group_form.name(class_="form-control")}}</td>
+                <td> {{group_form.submit(class_="btn btn-success") }}</td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<hr>
+<h2>Plots:</h2>
+{% for label in pie_labels %}
+<h3>{{label}}</h3>
+
+<div id="{{label}}" class="bar">
+</div>
+{% endfor %}
+<hr>
+
+<br><br><br>
+
+<h1>2) Значение часов предметов (scatter plot)</h1>
+
+<div id="bar" class="bar">
+</div>
+
+<script src="{{ url_for('static', filename='js/d3.v5.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+
+
+<script type="text/javascript">
+var graphs = {{json | safe}};
+var pie_labels = {{ pie_labels | safe}};
+for(var plt_id of pie_labels) {
+    Plotly.plot(plt_id,
+    graphs[plt_id],{});
+}
+Plotly.plot("bar",
+            graphs["bar"],{});
+
+
+</script>
+
+{% endblock %}

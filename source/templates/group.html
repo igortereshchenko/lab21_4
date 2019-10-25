@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">group id</th>
+            <th scope="col">group name</th>
+            <th scope="col">student faculty</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for group in groups%}
+        <tr>
+            <td> {{group.group_id}}</td>
+            <td> {{group.group_name}}</td>
+            <td> {{group.group_faculty}}</td>
+            <td>
+                <a href="/edit_group?group_id={{group.group_id}}" title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_user" data-user_id="{{group.group_id}}">
+                        Edit
+                    </button>
+                </a>
+                <a href="/delete_group?group_id={{group.group_id}}" title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_user" data-user_id="{{group.group_id}}">
+                        Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_group" title="new group button">
+                    <button type="button" class="btn btn-success" name="btn_new_group">New group</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--<script src="{{ url_for('static', filename='js/skill.js') }}"></script>-->
+
+{% endblock %}

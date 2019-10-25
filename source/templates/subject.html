@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">subject name</th>
+            <th scope="col">subject faculty</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for subject in subjects%}
+        <tr>
+            <td> {{subject.subj_name}}</td>
+            <td> {{subject.subj_faculty}}</td>
+            <td> {{subject.subj_hours}}</td>
+
+            <td>
+                <a href="/edit_subject?subj_name={{subject.subj_name}}&subj_faculty={{subject.subj_faculty}}&subj_hours={{subject.subj_hours}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_subject"
+                            data-user_id="{{subject.subj_name}}">Edit
+                    </button>
+                </a>
+                <a href="/delete_subject?subj_name={{subject.subj_name}}&subj_faculty={{subject.subj_faculty}}&subj_hours={{subject.subj_hours}}"
+                   title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_subject"
+                            data-user_id="{{subject.subj_name}}">Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_subject" title="new subject button">
+                    <button type="button" class="btn btn-success" name="btn_new_subject">New subject</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
