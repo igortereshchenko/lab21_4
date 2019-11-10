@@ -34,6 +34,15 @@ class Subject(Base):
     subj_hours = Column(Integer, nullable=True)
 
 
+class Student(Base):
+    __tablename__ = 'Student'
+
+    stud_name = Column(String(255),primary_key=True)
+    gender = Column(Boolean, nullable=True)
+    counter = Column(Integer, nullable=True)
+    group_ids_fk = Column(Integer, nullable=True)
+
+
 class Scedule(Base):
     __tablename__ = 'Scedule'
 
@@ -44,8 +53,18 @@ class Scedule(Base):
     __table_args__ = (ForeignKeyConstraint([subj_name_fk, subj_faculty_fk],
                                            [Subject.subj_name, Subject.subj_faculty]), {})
 
-
     subject_entity = relationship("Subject")
+    teacher_entity = relationship("Teacher")
+
+
+class Univer(Base):
+    __tablename__ = 'Univer'
+
+    name = Column(String(255),primary_key=True)
+    addr = Column(String(255), nullable=True)
+    counter = Column(Integer, nullable=True)
+    teacher_id_fk = Column(Integer, ForeignKey('Teachers.teacher_id'), nullable=True)
+
     teacher_entity = relationship("Teacher")
 
 

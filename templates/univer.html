@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col">addr</th>
+            <th scope="col">counter</th>
+            <th scope="col">teacher_id_fk</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for univer in univers%}
+        <tr>
+            <td> {{univer.name}}</td>
+            <td> {{univer.addr}}</td>
+            <td> {{univer.counter}}</td>
+            <td> {{univer.teacher_id_fk}}</td>
+
+            <td>
+                <a href="/edit_univer?name={{univer.name}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_univer"
+                            data-user_id="{{univer.name}}">Edit
+                    </button>
+                </a>
+
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

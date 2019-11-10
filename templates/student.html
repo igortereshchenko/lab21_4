@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">student name</th>
+            <th scope="col">student gender</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in student%}
+        <tr>
+            <td> {{student.name}}</td>
+            <td> {{student.gender}}</td>
+            <td> {{student.record_book}}</td>
+
+            <td>
+                <a href="/edit_student?name={{student.name}}&gender={{student.gender}}&record_book={{student.record_book}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_student"
+                            data-user_id="{{student.name}}">Edit
+                    </button>
+                </a>
+                <a href="/delete_student?name={{student.name}}&gender={{student.gender}}&record_book={{student.record_book}}"
+                   title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_subject"
+                            data-user_id="{{student.name}}">Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_student" title="new student button">
+                    <button type="button" class="btn btn-success" name="btn_new_student">New subject</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

@@ -7,6 +7,7 @@ from datetime import date
 from forms.teacher_form import TeacherForm
 from forms.group_form import GroupForm
 from forms.subject_form import SubjectForm
+from forms.univer_form import UniverForm
 from forms.search_group_form import GroupSearchForm
 import json
 import plotly
@@ -325,7 +326,72 @@ def delete_subject():
     return redirect(url_for('index_subject'))
 
 
+@app.route('/univer', methods=['GET'])
+def index_univer():
+    db = PostgresDb()
+
+    univer = db.sqlalchemy_session.query(Univer).all()
+
+    return render_template('univer.html', univers=univer)
+
+
+@app.route('/new_univer', methods=['GET'])
+def new_univer():
+    univer_obj = Univer(
+        name="KPI",
+        addr="Polytech Street",
+        counter=1000,
+        teacher_id_fk=2
+    )
+
+    db = PostgresDb()
+    db.sqlalchemy_session.add(univer_obj)
+    db.sqlalchemy_session.commit()
+    return redirect(url_for('index_univer'))
+
+
+@app.route('/edit_univer', methods=['GET', 'POST'])
+def edit_univer():
+    form = UniverForm()
+
+    if request.method == 'GET':
+
+        name = request.args.get('name')
+        db = PostgresDb()
+
+        # -------------------------------------------------------------------- filter for "and" google
+        univer = db.sqlalchemy_session.query(Univer).filter(
+            Univer.name == name).one()
+
+        # fill form and send to discipline
+        form.name.data = univer.name
+        form.addr.data = univer.addr
+        form.counter.data = univer.counter
+        form.teacher_id_fk.data = univer.teacher_id_fk
+        form.old_name.data = univer.name
+
+        return render_template('univer_form.html', form=form, form_name="Edit univer", action="edit_univer")
+
+    else:
+        if not form.validate():
+            return render_template('univer_form.html', form=form, form_name="Edit univer", action="edit_univer")
+        else:
+            db = PostgresDb()
+            # find discipline
+            univer = db.sqlalchemy_session.query(Univer).filter(
+                Univer.name == form.old_name.data).one()
+
+            # update fields from form data
+            univer.name = form.name.data
+            univer.addr = form.addr.data
+            univer.counter = form.counter.data
+            univer.teacher_id_fk = form.teacher_id_fk.data
+
+            db.sqlalchemy_session.commit()
+
+            return redirect(url_for('index_univer'))
 # END DISCIPLINE ORIENTED QUERIES -----------------------------------------------------------------------------------
+
 
 if __name__ == '__main__':
     app.run(debug=True)
