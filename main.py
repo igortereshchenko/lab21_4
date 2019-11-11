@@ -7,7 +7,7 @@ from datetime import date
 from forms.teacher_form import TeacherForm
 from forms.group_form import GroupForm
 from forms.subject_form import SubjectForm
-from forms.univer_form import UniverForm
+from forms.work_form import Work1Form
 from forms.search_group_form import GroupSearchForm
 import json
 import plotly
@@ -386,6 +386,80 @@ def edit_univer():
             univer.addr = form.addr.data
             univer.counter = form.counter.data
             univer.teacher_id_fk = form.teacher_id_fk.data
+
+            db.sqlalchemy_session.commit()
+
+            return redirect(url_for('index_univer'))
+
+
+@app.route('/show', methods=['GET'])
+def index_work():
+    db = PostgresDb()
+
+    work = db.sqlalchemy_session.query(Work1).all()
+
+    return render_template('work.html', works=work)
+
+
+@app.route('/new_work', methods=['GET'])
+def new_work():
+    work_obj = Work1(
+        name="AAA",
+        company="Epam",
+        salary=20000,
+        subj_name_fk = "MATH",
+        subj_faculty_fk = "AM",
+        open_date = '2019-01-01'
+    )
+
+    db = PostgresDb()
+    db.sqlalchemy_session.add(work_obj)
+    db.sqlalchemy_session.commit()
+    return redirect(url_for('index_work'))
+
+@app.route('/edit_work', methods=['GET', 'POST'])
+def edit_work():
+    form = Work1Form()
+
+    if request.method == 'GET':
+
+        subj_faculty_fk, subj_name_fk = request.args.get('subj_faculty_fk'), \
+                                        request.args.get('subj_name_fk')
+        db = PostgresDb()
+
+        # -------------------------------------------------------------------- filter for "and" google
+        work = db.sqlalchemy_session.query(Work1).filter(
+            Work1.subj_faculty_fk == subj_faculty_fk,
+            Work1.subj_name_fk == subj_name_fk).one()
+
+        # fill form and send to discipline
+        form.name.data = work.name
+        form.company.data = work.company
+        form.salary.data = work.salary
+        form.open_date.data = work.open_date
+        form.subj_name_fk.data = work.subj_name_fk
+        form.subj_faculty_fk.data = work.subj_faculty_fk
+        form.old_name.data = work.subj_name_fk
+
+        return render_template('work_form.html', form=form, form_name="Edit work", action="edit_work")
+
+    else:
+        if not form.validate():
+            return render_template('work_form.html', form=form, form_name="Edit work", action="edit_work")
+        else:
+            db = PostgresDb()
+            # find discipline
+            work = db.sqlalchemy_session.query(Work1).filter(
+                Work1.subj_faculty_fk == form.subj_faculty_fk.data,
+                Work1.subj_name_fk == form.subj_name_fk.data).one()
+
+            # update fields from form data
+            work.name = form.name.data
+            work.company = form.company.data
+            work.salary = form.salary.data
+            work.open_date = form.open_date.data
+            work.subj_name_fk = form.subj_name_fk.data
+            work.subj_faculty_fk = form.subj_faculty_fk.data
 
             db.sqlalchemy_session.commit()
 

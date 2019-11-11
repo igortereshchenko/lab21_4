@@ -68,6 +68,21 @@ class Univer(Base):
     teacher_entity = relationship("Teacher")
 
 
+class Work1(Base):
+    __tablename__ = 'Work1'
+
+    name = Column(String(255), nullable=True)
+    company = Column(String(255), nullable=True)
+    subj_name_fk = Column(String(255), primary_key=True)
+    subj_faculty_fk = Column(String(255), primary_key=True)
+    salary = Column(Integer, nullable=True)
+    open_date = Column(Date, nullable=True)
+    __table_args__ = (ForeignKeyConstraint([subj_name_fk, subj_faculty_fk],
+                                           [Subject.subj_name, Subject.subj_faculty]), {})
+
+    subject_entity = relationship("Subject")
+
+
 if __name__ == '__main__':
     from dao.db import PostgresDb
 
