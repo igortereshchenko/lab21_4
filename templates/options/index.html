@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div id="content__page__header" class="d-flex justify-content-between align-items-center">
+        <span>Options</span>
+        <a href="{{url_for('new_option')}}" class="btn btn-primary">Add new option</a>
+    </div>
+    <div id="content__page__body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 15%">place</th>
+                <th style="width: 12%">season</th>
+                <th style="width: 13%">temperature</th>
+				<th style="width: 13%">event_name</th>
+                <th style="width: 20%">Created On</th>
+                <th style="width: 15%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for option in options: %}
+                <tr>
+                    <td>{{ option.Place }}</td>
+                    <td>{{ option.Season }}</td>
+                    <td>{{ option.Temperature }}</td>
+					<td>{{ option.Event.Event_name }}</td>
+                    <td>{{ option.CreatedOn.strftime("%b %d %Y %H:%M:%S")  }}</td>
+                    <td class="d-flex justify-content-end">
+                        <a href="{{url_for('update_option', uuid=option.option_id)}}" class="btn btn-success">Edit</a>
+                        <form method="post" action="{{url_for('delete_option', uuid=option.option_id)}}" class="delete-record">
+                            <input type="submit" value="Delete" class="btn btn-danger"/>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

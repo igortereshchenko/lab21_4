@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<form method="post" >
+    {{form.hidden_tag()}}
+
+    <div class="form-group">
+        {{form.Login.label}}
+        {{form.Login(class_="form-control")}}
+    </div>
+	<div class="form-group">
+        {{form.Password.label}}
+        {{form.Password(class_="form-control")}}
+    </div>
+    <div class="form-group">
+        {{form.Email.label}}
+        {{form.Email(class_="form-control")}}
+    </div>
+	<div class="form-group">
+        {{form.Lastname.label}}
+        {{form.Lastname(class_="form-control")}}
+    </div>
+    <div class="form-group">
+        {{form.Firstname.label}}
+        {{form.Firstname(class_="form-control")}}
+    </div>
+	<div class="form-group">
+        {{form.Age.label}}
+        {{form.Age(class_="form-control")}}
+    </div>
+    <div class="form-group">
+        {{form.Eyes.label}}
+        {{form.Eyes(class_="form-control")}}
+    </div>
+	<div class="form-group">
+        {{form.Hair.label}}
+        {{form.Hair(class_="form-control")}}
+    </div>
+    <div class="form-group">
+        {{form.Height.label}}
+        {{form.Height(class_="form-control")}}
+    </div>
+    {{form.Submit(class_="btn btn-success")}}
+</form>
+{% endblock %}

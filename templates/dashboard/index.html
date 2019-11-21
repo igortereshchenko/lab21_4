@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<script src="{{ url_for('static', filename='js/plotly.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<div class="row">
+    <div class="col-md-6">
+        <div class="d-flex justify-content-between align-items-center dashboard_filter">
+            <span>User events distribution</span>
+            <select class="form-control" id="User_distribution_select">
+                {% for User in model.Users %}
+                    <option value="{{User[0]}}">{{User[1]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="chart" id="Users_distribution_data">
+            <script>
+                var Users_distribution_data = {{ model.Users_distribution_data  | safe }};
+                Plotly.plot('Users_distribution_data', Users_distribution_data, {});
+            </script>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="d-flex justify-content-between align-items-center dashboard_filter">
+            <span>Event options population</span>
+            <select class="form-control" id="event_options_population_select">
+                {% for event in model.events %}
+                    <option value="{{event[0]}}">{{event[0]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="chart" id="event_options_population_graph">
+            <script>
+                var event_options_population_data= {{ model.event_options_population_data  | safe }};
+                Plotly.plot('event_options_population_graph', event_options_population_data, {});
+            </script>
+        </div>
+    </div>
+</div>
+{% endblock %}
