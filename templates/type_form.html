@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="col-md-6 mx-auto">
+    <div class="card rounded-0">
+
+        <div class="card-header">
+            <h3 class="mb-0">{{form_name}}</h3>
+        </div>
+        <div class="card-body">
+
+            <form class="form"  action = "/{{action}}" method = post >
+
+                {{ form.hidden_tag() }}
+
+
+                <div class="form-group">
+                    {{ form.dishname_fk.label }}
+                    {{ form.dishname_fk(class_="form-control") }}
+
+                    {% if form.dishname_fk.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.dishname_fk.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+
+                <div class="form-group">
+                    {{ form.typename.label }}
+                    {{ form.typename(class_="form-control") }}
+
+                    {% if form.typename.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.typename.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+                 <div class="form-group "  style="display:none">
+                    {{ form.old_id.label }}
+                    {{ form.old_id(class_="form-control") }}
+
+                    {% if form.old_id.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.old_id.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+
+
+
+                {{ form.submit(class_="btn btn-success") }}
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+{% endblock %}
