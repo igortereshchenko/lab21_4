@@ -1,0 +1,74 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">student id</th>
+            <th scope="col">student university</th>
+            <th scope="col">student faculty</th>
+            <th scope="col">student group</th>
+            <th scope="col">student name</th>
+            <th scope="col">student surname</th>
+            <th scope="col">student birthday</th>
+            <th scope="col">student date enrollment</th>
+            {% if deleted %}
+            <th scope="col">student date expelled</th>
+            {% endif %}
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students%}
+        <tr>
+            <td> {{student.student_id}}</td>
+            <td> {{student.student_university}}</td>
+            <td> {{student.student_faculty}}</td>
+            <td> {{student.student_group}}</td>
+            <td> {{student.student_name}}</td>
+            <td> {{student.student_surname}}</td>
+            <td> {{student.student_birthday}}</td>
+            <td> {{student.student_date_enrollment}}</td>
+            {% if deleted %}
+            <td> {{student.student_date_expelled}}</td>
+            {% endif %}
+            <td>
+                <a href="/edit_student?student_id={{student.student_id}}" title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_user" data-user_id="{{student.student_id}}">
+                        Edit
+                    </button>
+                </a>
+                {% if not student.student_date_expelled %}
+                <a href="/delete_student?student_id={{student.student_id}}" title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_user" data-user_id="{{student.student_id}}">
+                        Delete
+                    </button>
+                </a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_student" title="new student button">
+                    <button type="button" class="btn btn-success" name="btn_new_student">New student</button>
+                </a>
+            </td>
+            {% if not deleted %}
+            <td>
+                <a href="/student?deleted=True" title="all students button">
+                    <button type="button" class="btn btn-success" name="btn_all_students">Show deleted students</button>
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--<script src="{{ url_for('static', filename='js/skill.js') }}"></script>-->
+
+{% endblock %}

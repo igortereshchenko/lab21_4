@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col">address</th>
+            <th scope="col">year</th>
+            <th scope="col">degree</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for uni in univers%}
+        <tr>
+            <td> {{uni.name}}</td>
+            <td> {{uni.address}}</td>
+            <td> {{uni.year}}</td>
+            <td> {{uni.degree}}</td>
+            <td>
+                <a href="/edit_table?id={{uni.id}}" title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_user">
+                        Update
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!--<script src="{{ url_for('static', filename='js/skill.js') }}"></script>-->
+
+{% endblock %}

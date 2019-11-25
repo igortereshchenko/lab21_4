@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<!--https://www.codeply.com/go/nhbdi2FkJm-->
+
+
+<div class="col-md-6 mx-auto">
+
+    <!-- form card login -->
+    <div class="card rounded-0">
+
+        <div class="card-header">
+            <h3 class="mb-0">{{form_name}}</h3>
+        </div>
+        <div class="card-body">
+
+            <form class="form" {%if action=='edit_editor_file' %}
+                  action="/{{action}}?user_id={{data.user_id}}&file_id={{data.orm_editor[0].file_id}}"
+                  {%else%} action="/{{action}}" {%endif%} method=post>
+
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>
+                            User:
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <select name="user_id">
+
+                                    {% for user in users %}
+                                    <option value="{{user.user_id}}"
+                                            {%if action=='edit_editor_file' and data.user_id==user.user_id%} selected
+                                            {%endif%}>
+                                        name = {{user.user_name}}, login = {{user.user_login}}
+                                    </option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            File:
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <select name="file_id">
+
+                                    {% for file in files%}
+                                    <option value="{{file.file_id}}"
+                                            {%if action=='edit_editor_file' and
+                                            data.orm_editor[0].file_id==file.file_id%}
+                                            selected {%endif%}>
+                                     name = {{file.file_name}}, type = {{file.file_type}}, context =
+                                     {{file.file_context}}
+                                    </option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <input type='submit' value="Submit">
+            </form>
+        </div>
+        <!--/card-block-->
+    </div>
+    <!-- /form card login -->
+
+</div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<br><br>
+<h1>1) Количество студентов в группе каждого университета и факультета (pie plot)</h1>
+<hr>
+<h2>Search panel:</h2>
+<form class="form"  method = post >
+
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">{{student_form.university.label}}</th>
+            <th scope="col">{{student_form.faculty.label}}</th>
+            <th scope="col">{{student_form.group.label}}</th>
+            <th scope="col">{{student_form.name.label}}</th>
+            <th scope="col">{{student_form.surname.label}}</th>
+            <th scope="col">{{student_form.birthday.label}}</th>
+            <th scope="col">{{student_form.date_enrollment.label}}</th>
+            <th scope="col">{{student_form.deleted.label}}</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> {{student_form.university(class_="form-control")}}</td>
+                <td> {{student_form.faculty(class_="form-control")}}</td>
+                <td> {{student_form.group(class_="form-control")}}</td>
+                <td> {{student_form.name(class_="form-control")}}</td>
+                <td> {{student_form.surname(class_="form-control")}}</td>
+                <td> {{student_form.birthday(class_="form-control")}}</td>
+                <td> {{student_form.date_enrollment(class_="form-control")}}</td>
+                <td> {{student_form.deleted(class_="form-control")}}</td>
+                <td> {{student_form.submit(class_="btn btn-success") }}</td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+<hr>
+<h2>Plots:</h2>
+<div id="pie">
+    {% for label in pie_labels %}
+    <h3>{{label}}</h3>
+
+
+    <div id="{{label}}" class="bar">
+    </div>
+
+    {% endfor %}
+</div>
+<hr>
+
+<br><br><br>
+
+<h1>2) Значение баллов у студентов до экзамена/зачета и после (scatter plot)</h1>
+<hr>
+<h2>Search panel:</h2>
+<form class="form"  method = post >
+
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">{{record_book_form.student_name.label}}</th>
+            <th scope="col">{{record_book_form.student_surname.label}}</th>
+            <th scope="col">{{record_book_form.student_group.label}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td> {{record_book_form.student_name(class_="form-control")}}</td>
+            <td> {{record_book_form.student_surname(class_="form-control")}}</td>
+            <td> {{record_book_form.student_group(class_="form-control")}}</td>
+        </tr>
+        </tbody>
+
+        <thead>
+        <tr>
+            <th scope="col">{{record_book_form.discipline_university.label}}</th>
+            <th scope="col">{{record_book_form.discipline_faculty.label}}</th>
+            <th scope="col">{{record_book_form.discipline_name.label}}</th>
+            <th scope="col">{{record_book_form.discipline_hours_for_semester.label}}</th>
+            <th scope="col">{{record_book_form.discipline_exam.label}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td> {{record_book_form.discipline_university(class_="form-control")}}</td>
+            <td> {{record_book_form.discipline_faculty(class_="form-control")}}</td>
+            <td> {{record_book_form.discipline_name(class_="form-control")}}</td>
+            <td> {{record_book_form.discipline_hours_for_semester(class_="form-control")}}</td>
+            <td> {{record_book_form.discipline_exam(class_="form-control")}}</td>
+        </tr>
+        </tbody>
+        <thead>
+        <tr>
+            <th scope="col">{{record_book_form.professor_name.label}}</th>
+            <th scope="col">{{record_book_form.professor_surname.label}}</th>
+            <th scope="col">{{record_book_form.professor_degree.label}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td> {{record_book_form.professor_name(class_="form-control")}}</td>
+            <td> {{record_book_form.professor_surname(class_="form-control")}}</td>
+            <td> {{record_book_form.professor_degree(class_="form-control")}}</td>
+            <td> {{record_book_form.submit(class_="btn btn-success") }}</td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<hr>
+<h2>Plots:</h2>
+
+<div id="bar" class="bar">
+</div>
+
+<script src="{{ url_for('static', filename='js/d3.v5.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+
+
+<script type="text/javascript">
+var graphs = {{json | safe}};
+var pie_labels = {{ pie_labels | safe}};
+if (pie_labels){
+    for(var plt_id of pie_labels) {
+        Plotly.plot(plt_id,
+        graphs[plt_id],{});
+    }}
+else{
+    document.getElementById('pie').innerHTML = '<p> no plots</p>';
+}
+
+if (graphs["bar"]){
+    Plotly.plot("bar",
+            graphs["bar"],{});
+            }
+else{
+    document.getElementById('bar').innerHTML = '<p> no plots</p>';
+}
+
+
+</script>
+
+{% endblock %}
