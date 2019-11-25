@@ -1,12 +1,13 @@
 from flask import Flask, request, render_template, redirect, url_for
-from domain.models import db, Users, Events, Options, Clothes
+from domain.models import db, Users, Events, Options, Clothes, Vendors
 from domain.credentials import *
 from views.users import UsersViewModel
 from views.events import EventsViewModel
 from views.options import OptionsViewModel
 from views.clothes import ClothesViewModel
+from views.vendors import VendorsViewModel
 from views.dashboard import DashboardViewModel
-from services.visualization import user_distribution_pie, event_options_population_bar
+from services.visualization import visualization_data
 from sqlalchemy import desc
 import os
 
@@ -24,6 +25,49 @@ db.init_app(app)
 @app.route("/")
 def index():
     db.create_all()
+    return render_template("layout.html")
+
+
+@app.route('/map')
+def map():
+    db.create_all()
+
+    user_1 = Users(Login='Kolobaieva',
+                    Password='1111',
+                   Email='dddd@gmail.com',
+                   Lastname='Kolobaieva',
+                   Firstname='Katia',
+                   Age=20,
+                   Eyes='blue',
+                   hair='brown',
+                   height=160)
+
+
+    event_1 = Events(event_name='birthday',
+                      user_idIDFK=1)
+
+    option_1 = Options(place='cafe',
+                      season='summer',
+                      temperature=20,
+                      event_idIDFK=1
+                      )
+
+    clothe_1 = Clothes(style_name='romantic',
+                      outwear='t-shirt',
+                      lowerwear='jeans',
+                      shoes=35,
+                      option_idIDFK=1
+                      )
+    vendor_1 = Vendors(vendor_name='Katia',
+                       vendor_address='kyiv',
+                       balance=2000,
+                       vendor_country='UK',
+                       clothe_idIdFk=1
+                         )
+
+    # db.session.add_all([student_1, student_2, student_3])
+    db.session.add_all([user_1, event_1, option_1,clothe_1,vendor_1])
+    db.session.commit()
     return render_template("layout.html")
 
 
@@ -221,32 +265,33 @@ def delete_clothe(uuid):
 
     return redirect(url_for("clothes"))
 
+
+
+@app.route("/vendors")
+def vendors():
+    all_vendors = Clothes.query.join(Clothes).all()
+    return render_template("vendors/index.html", vendors=all_vendors)
+
+
+
 @app.route("/dashboard")
 def dashboard():
-    all_users = db.session.query(Users.user_id, Users.Login).all()
-    distinct_events = db.session.query(Events.Event_name).distinct().all()
+    all_vendors = db.session.query(Vendors.vendor_name, Vendors.balance).all()
     dashboardViewModel = DashboardViewModel()
-    if len(all_users):
-        dashboardViewModel.Users = [(str(user.user_id), user.Login) for user in all_users]
-        dashboardViewModel.Users_distribution_data = user_distribution_pie(all_users[0][0])
-
-    if len(distinct_events):
-        dashboardViewModel.Events = distinct_events
-        dashboardViewModel.Events_options_population_data = event_options_population_bar(
-            distinct_events[0][0])
+    if len(all_vendors):
+        dashboardViewModel.Vendors = [(str(Vendors.vendor_name), Vendors.balance) for user in all_vendors]
+        dashboardViewModel.visualization_bar = visualization_bar(all_vendors[0][0])
 
     return render_template("dashboard/index.html", model=dashboardViewModel)
 
 
 @app.route("/user_distribution/<uuid>")
-def user_distribution(uuid):
-    return user_distribution_pie(uuid)
+def visualization_bar(uuid):
+    return visualization_bar(uuid)
 
 
-@app.route("/event_options_population/<name>")
-def event_options_population(name):
-    return event_options_population_bar(name)
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+

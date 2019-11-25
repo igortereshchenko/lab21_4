@@ -5,6 +5,7 @@ from views.users import UsersViewModel
 from views.events import EventsViewModel
 from views.options import OptionsViewModel
 from views.clothes import ClothesViewModel
+from views.vendors import VendorsViewModel
 
 db = SQLAlchemy()
 
@@ -125,3 +126,33 @@ class Clothes(db.Model):
         self.Lowerwear = form.Lowerwear.data,
         self.Shoes = form.Shoes.data,
         self.option_idIdFk = form.Option.data
+
+class Vendors(db.Model):
+    __tablename__ = "vendors"
+
+    vendor_id = db.Column("vendor_id", db.Integer, primary_key=True)
+    vendor_name = db.Column("vendor_name", db.String, nullable=False)
+    vendor_address = db.Column("vendor_address", db.String, nullable=False)
+    balance = db.Column("balance", db.Integer, nullable=False)
+    vendor_country = db.Column("country", db.String, nullable=False)
+    CreatedOn = db.Column("createdOn", db.TIMESTAMP, default=datetime.now)
+
+    clothe_idIdFk = db.Column("clothe_idIdFk", db.Integer, db.ForeignKey("clothes.clothe_id"))
+    Clothe = db.relationship("Clothes", backref=backref('Clothes', cascade='all,delete'), passive_deletes=True)
+
+    def wtf(self):
+        return VendorsViewModel(
+            vendor_name=self.vendor_name,
+            vendor_address=self.vendor_address,
+            balance=self.balance,
+            CreatedOn=self.CreatedOn,
+            vendor_country=self.vendor_country,
+            Clothe=self.clothe_idIdFk
+        )
+
+    def map_from(self, form):
+        self.vendor_name = form.vendor_name.data,
+        self.vendor_address = form.vendor_address.data,
+        self.balance = form.balance.data,
+        self.vendor_country = form.vendor_country.data,
+        self.clothe_idIdFk = form.Clothe.data
