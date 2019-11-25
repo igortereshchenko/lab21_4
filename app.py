@@ -15,7 +15,6 @@ import plotly.graph_objs as go
 import os
 from sqlalchemy import func
 
-
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "jkm-vsnej9l-vm9sqm3:lmve")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL",
@@ -120,13 +119,20 @@ def plot():
     db = PostgresDb()
 
     # scatter plot ---------------------------------------------------------------------------------------------------
-    query = db.sqlalchemy_session.query(func.count(Univer.id), Univer.year).group_by(Univer.year).all()
+    query = db.sqlalchemy_session.query(func.count(Univer.id), Univer.year).group_by(Univer.year).order_by(Univer.year).all()
+    count, year_l = [], []
+    i = 0
 
-    count_uni, year = zip(*query)
+    for count_uni, year in query:
+        i += count_uni
+        count.append(i)
+        year_l.append(year)
+
+
 
     bar = go.Scatter(
-        x=year,
-        y=count_uni
+        x=year_l,
+        y=count
         # mode='markers'
     )
 
