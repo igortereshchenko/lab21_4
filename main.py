@@ -66,7 +66,7 @@ def edit_restaurant():
 
         restaurant_obj = db.sqlalchemy_session.query(Restaurant).filter(Restaurant.name == restaurantname).one()
 
-        form.name.data = restaurant_obj.name,
+        form.name.data = restaurant_obj.name
         form.dishname_fk.data = restaurant_obj.dishname_fk
         form.star.data = restaurant_obj.star
         form.country.data = restaurant_obj.country
@@ -76,16 +76,19 @@ def edit_restaurant():
 
         form.old_name.data = restaurant_obj.name
 
-        return render_template('restaurant_form.html', form=form, form_name="Edit restaurant", action="edit_restaurant")
+        return render_template('edit_form.html', form=form, form_name="Edit restaurant", action="edit_restaurant")
 
     else:
         if not form.validate():
-            return render_template('restaurant_form.html', form=form, form_name="Edit restaurant",
+            return render_template('edit_form.html', form=form, form_name="Edit restaurant",
                                    action="edit_restaurant")
         else:
             restaurant_obj = db.sqlalchemy_session.query(Restaurant).filter(Restaurant.name == form.old_name.data).one()
 
-
+            restaurant_obj.name = form.name.data
+            restaurant_obj.dishname_fk = form.dishname_fk.data
+            restaurant_obj.country= form.country.data
+            restaurant_obj.address= form.address.data
             restaurant_obj.city = form.city.data
             restaurant_obj.star = form.star.data
             db.sqlalchemy_session.commit()
