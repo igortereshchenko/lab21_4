@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+            <div id="content__page__header" class="d-flex justify-content-between align-items-center">
+                <span>Users</span>
+                <a href="{{url_for('new_user')}}" class="btn btn-primary">Add new user</a>
+            </div>
+            <div id="content__page__body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%">Login</th>
+                            <th style="width: 45%">Password</th>
+                            <th style="width: 45%">Email</th>
+                            <th style="width: 40%">Lastname</th>
+                            <th style="width: 40%">Firstname</th>
+							<th style="width: 45%">Age</th>
+                            <th style="width: 40%">Eyes</th>
+                            <th style="width: 40%">Hair</th>
+							<th style="width: 40%">Height</th>
+                            <th style="width: 40%">Created On</th>
+                            <th style="width: 15%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users: %}
+                        <tr>
+                            <td>{{user.Login}}</td>
+							<td>{{user.Password}}</td>
+							<td>{{user.Email}}</td>
+							<td>{{user.Lastname}}</td>
+							<td>{{user.Firstname}}</td>
+							<td>{{user.Age}}</td>
+							<td>{{user.Eyes}}</td>
+							<td>{{user.Hair}}</td>
+							<td>{{user.Height}}</td>
+                            <td>{{user.CreatedOn.strftime("%b %d %Y %H:%M:%S")}}</td>
+                            <td class="d-flex justify-content-end">
+                                <a href="{{url_for('update_user', uuid=user.user_id)}}" class="btn btn-success">Edit</a>
+                                <form method="post" action="{{url_for('delete_user', uuid=user.user_id)}}" class="delete-record">
+                                    <input type="submit" value="Delete" class="btn btn-danger"/>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+{% endblock %}

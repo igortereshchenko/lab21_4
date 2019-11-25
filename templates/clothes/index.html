@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div id="content__page__header" class="d-flex justify-content-between align-items-center">
+        <span>Clothes</span>
+        <a href="{{url_for('new_clothe')}}" class="btn btn-primary">Add new clothe</a>
+    </div>
+    <div id="content__page__body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 12%">outwear</th>
+                <th style="width: 13%">lowerwear</th>
+				<th style="width: 13%">shoes</th>
+				<th style="width: 13%">place</th>
+                <th style="width: 20%">Created On</th>
+                <th style="width: 15%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for clothe in clothes: %}
+                <tr>
+                    <td>{{ clothe.Outwear }}</td>
+                    <td>{{ clothe.Lowerwear }}</td>
+					<td>{{ clothe.Shoes }}</td>
+					<td>{{ clothe.Option.Place }}</td>
+                    <td>{{ clothe.CreatedOn.strftime("%b %d %Y %H:%M:%S")  }}</td>
+                    <td class="d-flex justify-content-end">
+                        <a href="{{url_for('update_clothe', uuid=clothe.clothe_id)}}" class="btn btn-success">Edit</a>
+                        <form method="post" action="{{url_for('delete_clothe', uuid=clothe.clothe_id)}}" class="delete-record">
+                            <input type="submit" value="Delete" class="btn btn-danger"/>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
