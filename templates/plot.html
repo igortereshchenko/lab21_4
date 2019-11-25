@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<br><br>
+<h1>1) Количество студентов в группе каждого университета и факультета (pie plot)</h1>
+<hr>
+
+<h2>Plots:</h2>
+
+<div id="bar" class="bar">
+</div>
+
+<script src="{{ url_for('static', filename='js/d3.v5.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+
+
+<script type="text/javascript">
+var graphs = {{json | safe}};
+
+if (graphs["bar"]){
+    Plotly.plot("bar",
+            graphs["bar"],{});
+            }
+else{
+    document.getElementById('bar').innerHTML = '<p> no plots</p>';
+}
+
+
+</script>
+
+{% endblock %}

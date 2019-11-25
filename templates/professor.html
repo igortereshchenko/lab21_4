@@ -1,0 +1,75 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">professor id</th>
+            <th scope="col">professor name</th>
+            <th scope="col">professor surname</th>
+            <th scope="col">professor university</th>
+            <th scope="col">professor department</th>
+            <th scope="col">professor birthday</th>
+            <th scope="col">professor date enrollment</th>
+            {% if deleted %}
+            <th scope="col">professor date expelled</th>
+            {% endif %}
+            <th scope="col">professor degree</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for professor in professors%}
+        <tr>
+            <td> {{professor.professor_id}}</td>
+            <td> {{professor.professor_name}}</td>
+            <td> {{professor.professor_surname}}</td>
+            <td> {{professor.professor_university}}</td>
+            <td> {{professor.professor_department}}</td>
+            <td> {{professor.professor_birthday}}</td>
+            <td> {{professor.professor_date_enrollment}}</td>
+            {% if deleted %}
+            <td> {{professor.professor_date_expelled}}</td>
+            {% endif %}
+            <td> {{professor.professor_degree}}</td>
+
+            <td>
+                <a href="/edit_professor?professor_id={{professor.professor_id}}" title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_user"
+                            data-user_id="{{professor.professor_name}}">Edit
+                    </button>
+                </a>
+                {% if not professor.professor_date_expelled %}
+                <a href="/delete_professor?professor_id={{professor.professor_id}}" title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_user"
+                            data-user_id="{{professor.professor_name}}">Delete
+                    </button>
+                </a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_professor" title="new professor button">
+                    <button type="button" class="btn btn-success" name="btn_new_professor">New professor</button>
+                </a>
+            </td>
+            {% if not deleted %}
+            <td>
+                <a href="/professor?deleted=True" title="all professor button">
+                    <button type="button" class="btn btn-success" name="btn_all_professor">Show deleted professors</button>
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--<script src="{{ url_for('static', filename='js/skill.js') }}"></script>-->
+
+{% endblock %}

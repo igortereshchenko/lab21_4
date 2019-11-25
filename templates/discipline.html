@@ -1,0 +1,54 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">discipline university</th>
+            <th scope="col">discipline faculty</th>
+            <th scope="col">discipline name</th>
+            <th scope="col">discipline exam</th>
+            <th scope="col">discipline hours for semester</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for discipline in disciplines%}
+        <tr>
+            <td> {{discipline.discipline_university}}</td>
+            <td> {{discipline.discipline_faculty}}</td>
+            <td> {{discipline.discipline_name}}</td>
+            <td> {{discipline.discipline_exam}}</td>
+            <td> {{discipline.discipline_hours_for_semester}}</td>
+
+            <td>
+                <a href="/edit_discipline?discipline_university={{discipline.discipline_university}}&discipline_faculty={{discipline.discipline_faculty}}&discipline_name={{discipline.discipline_name}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_discipline"
+                            data-user_id="{{discipline.discipline_name}}">Edit
+                    </button>
+                </a>
+                <a href="/delete_discipline?discipline_university={{discipline.discipline_university}}&discipline_faculty={{discipline.discipline_faculty}}&discipline_name={{discipline.discipline_name}}"
+                   title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_discipline"
+                            data-user_id="{{discipline.discipline_name}}">Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_discipline" title="new discipline button">
+                    <button type="button" class="btn btn-success" name="btn_new_discipline">New discipline</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
