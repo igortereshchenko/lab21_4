@@ -1,0 +1,8 @@
+CREATE TABLE "Univer" (
+    name VARCHAR(255),
+    addr VARCHAR(255),
+    counter INT,
+    teacher_id_fk INT,
+    PRIMARY KEY (name),
+    FOREIGN KEY (teacher_id_fk) REFERENCES "Teachers"(teacher_id));
+    

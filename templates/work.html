@@ -1,0 +1,44 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">name</th>
+            <th scope="col">company</th>
+            <th scope="col">salary</th>
+            <th scope="col">subj_name_fk</th>
+            <th scope="col">subj_faculty_fk</th>
+            <th scope="col">open_date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for work in works%}
+        <tr>
+            <td> {{work.name}}</td>
+            <td> {{work.company}}</td>
+            <td> {{work.salary}}</td>
+            <td> {{work.subj_name_fk}}</td>
+            <td> {{work.subj_faculty_fk}}</td>
+            <td> {{work.open_date}}</td>
+
+            <td>
+                <a href="/edit_work?subj_name_fk={{work.subj_name_fk}}&subj_faculty_fk={{work.subj_faculty_fk}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_work"
+                            data-user_id="{{work.subj_name_fk}}, {{work.subj_faculty_fk}}">Edit
+                    </button>
+                </a>
+
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

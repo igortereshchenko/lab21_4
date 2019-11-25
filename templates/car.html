@@ -1,0 +1,42 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">model</th>
+            <th scope="col">color</th>
+            <th scope="col">numb</th>
+            <th scope="col">manuf</th>
+            <th scope="col">teacher_id_fk</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for car in cars%}
+        <tr>
+            <td> {{car.model}}</td>
+            <td> {{car.color}}</td>
+            <td> {{car.numb}}</td>
+            <td> {{car.manuf}}</td>
+            <td> {{car.teacher_id_fk}}</td>
+
+            <td>
+                <a href="/edit_car?model={{car.model}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" model="btn_edit_car"
+                            data-user_id="{{car.model}}">Edit
+                    </button>
+                </a>
+
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

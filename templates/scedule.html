@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">group id</th>
+            <th scope="col">subject name</th>
+            <th scope="col">faculty name</th>
+            <th scope="col">teacher id</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for group in groups%}
+        <tr>
+            <td> {{scedule.group_id}}</td>
+            <td> {{scedule.subject_name}}</td>
+            <td> {{scedule.faculty_name}}</td>
+            <td> {{scedule.teacher_id}}</td>
+            <td>
+                <a href="/edit_scedule?group_id={{scedule.group_id}}" title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_user" data-user_id="{{group.group_id}}">
+                        Edit
+                    </button>
+                </a>
+                <a href="/delete_scedule?group_id={{scedule.group_id}}" title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_user" data-user_id="{{group.group_id}}">
+                        Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_group" title="new scedule button">
+                    <button type="button" class="btn btn-success" name="btn_new_scedule">New scedule</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--<script src="{{ url_for('static', filename='js/skill.js') }}"></script>-->
+
+{% endblock %}
