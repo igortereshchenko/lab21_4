@@ -117,6 +117,7 @@ def install():
 def plot():
     pie_labels = []
     data = {}
+    db = PostgresDb()
 
     # scatter plot ---------------------------------------------------------------------------------------------------
     query = db.sqlalchemy_session.query(func.count(Univer.id), Univer.year).group_by(Univer.year).all()
