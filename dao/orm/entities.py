@@ -68,6 +68,18 @@ class Univer(Base):
     teacher_entity = relationship("Teacher")
 
 
+class Car(Base):
+    __tablename__ = 'Car'
+
+    model = Column(String(255), primary_key=True)
+    color = Column(String(255), nullable=True)
+    numb = Column(Integer, nullable=True)
+    manuf = Column(Integer, nullable=True)
+    teacher_id_fk = Column(Integer, ForeignKey('Teachers.teacher_id'), nullable=True)
+
+    teacher_entity = relationship("Teacher")
+
+
 class Work1(Base):
     __tablename__ = 'Work1'
 

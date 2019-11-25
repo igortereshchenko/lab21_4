@@ -16,12 +16,13 @@ class Work1Form(Form):
 
     salary = IntegerField("Worker`s salary ")
     open_date = DateField("Open date ")
-    subject_name_fk = StringField("subject_name_fk : ", [
+    subj_name_fk = StringField("subj_name_fk : ", [
         validators.DataRequired("Please enter subject name.")
     ])
-    subject_faculty_fk = StringField("subject_faculty_fk : ", [
+    subj_faculty_fk = StringField("subj_faculty_fk : ", [
         validators.DataRequired("Please enter subject faculty.")
     ])
-    old_name = HiddenField()
+    old_subj_name_fk = HiddenField()
+    old_subj_faculty_fk = HiddenField()
 
     submit = SubmitField("Save")

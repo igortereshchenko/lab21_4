@@ -1,0 +1,98 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<!--https://www.codeply.com/go/nhbdi2FkJm-->
+
+
+<div class="col-md-6 mx-auto">
+
+    <!-- form card login -->
+    <div class="card rounded-0">
+
+        <div class="card-header">
+            <h3 class="mb-0">{{form_name}}</h3>
+        </div>
+        <div class="card-body">
+
+            <form class="form"  action = "/{{action}}" method = post >
+
+                {{ form.hidden_tag() }}
+
+
+                <div class="form-group">
+                    {{ form.model.label }}
+                    {{ form.model(class_="form-control") }}
+
+                    {% if form.model.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.model.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+
+                <div class="form-group">
+                    {{ form.color.label }}
+                    {{ form.color(class_="form-control") }}
+
+                    {% if form.color.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.color.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+
+                <div class="form-group">
+                    {{ form.numb.label }}
+                    {{ form.numb(class_="form-control") }}
+
+                    {% if form.numb.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.numb.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+
+                <div class="form-group">
+                    {{ form.manuf.label }}
+                    {{ form.manuf(class_="form-control") }}
+
+                    {% if form.manuf.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.manuf.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+
+                <div class="form-group">
+                    {{ form.teacher_id_fk.label }}
+                    {{ form.teacher_id_fk(class_="form-control") }}
+
+                    {% if form.teacher_id_fk.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.teacher_id_fk.errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+
+                {{ form.submit(class_="btn btn-success") }}
+            </form>
+        </div>
+        <!--/card-block-->
+    </div>
+    <!-- /form card login -->
+
+</div>
+
+
+{% endblock %}

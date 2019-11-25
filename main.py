@@ -7,6 +7,8 @@ from datetime import date
 from forms.teacher_form import TeacherForm
 from forms.group_form import GroupForm
 from forms.subject_form import SubjectForm
+from forms.car_form import CarForm
+from forms.univer_form import UniverForm
 from forms.work_form import Work1Form
 from forms.search_group_form import GroupSearchForm
 import json
@@ -326,6 +328,75 @@ def delete_subject():
     return redirect(url_for('index_subject'))
 
 
+@app.route('/inserts', methods=['GET'])
+def index_car():
+    db = PostgresDb()
+
+    car = db.sqlalchemy_session.query(Car).all()
+
+    return render_template('car.html', cars=car)
+
+
+@app.route('/new_car', methods=['GET'])
+def new_car():
+    car_obj = Car(
+        model="A",
+        color="green",
+        numb=1234,
+        manuf=100,
+        teacher_id_fk=2
+    )
+
+    db = PostgresDb()
+    db.sqlalchemy_session.add(car_obj)
+    db.sqlalchemy_session.commit()
+    return redirect(url_for('index_car'))
+
+
+@app.route('/edit_car', methods=['GET', 'POST'])
+def edit_car():
+    form = CarForm()
+
+    if request.method == 'GET':
+
+        model = request.args.get('model')
+        db = PostgresDb()
+
+        # -------------------------------------------------------------------- filter for "and" google
+        car = db.sqlalchemy_session.query(Car).filter(
+            Car.model == model).one()
+
+        # fill form and send to discipline
+        form.model.data = car.model
+        form.color.data = car.color
+        form.numb.data = car.numb
+        form.manuf.data = car.manuf
+        form.teacher_id_fk.data = car.teacher_id_fk
+        form.old_model.data = car.model
+
+        return render_template('car_form.html', form=form, form_name="Edit car", action="edit_car")
+
+    else:
+        if not form.validate():
+            return render_template('car_form.html', form=form, form_name="Edit car", action="edit_car")
+        else:
+            db = PostgresDb()
+            # find discipline
+            car = db.sqlalchemy_session.query(Car).filter(
+                Car.model == form.old_model.data).one()
+
+            # update fields from form data
+            car.model = form.model.data
+            car.color = form.color.data
+            car.numb = form.numb.data
+            car.manuf = form.manuf.data
+            car.teacher_id_fk = form.teacher_id_fk.data
+
+            db.sqlalchemy_session.commit()
+
+            return redirect(url_for('index_car'))
+
+
 @app.route('/univer', methods=['GET'])
 def index_univer():
     db = PostgresDb()
@@ -439,7 +510,8 @@ def edit_work():
         form.open_date.data = work.open_date
         form.subj_name_fk.data = work.subj_name_fk
         form.subj_faculty_fk.data = work.subj_faculty_fk
-        form.old_name.data = work.subj_name_fk
+        form.old_subj_faculty_fk.data = work.subj_faculty_fk
+        form.old_subj_name_fk.data = work.subj_name_fk
 
         return render_template('work_form.html', form=form, form_name="Edit work", action="edit_work")
 
@@ -450,8 +522,8 @@ def edit_work():
             db = PostgresDb()
             # find discipline
             work = db.sqlalchemy_session.query(Work1).filter(
-                Work1.subj_faculty_fk == form.subj_faculty_fk.data,
-                Work1.subj_name_fk == form.subj_name_fk.data).one()
+                Work1.subj_faculty_fk == form.old_subj_faculty_fk.data,
+                Work1.subj_name_fk == form.old_subj_name_fk.data).one()
 
             # update fields from form data
             work.name = form.name.data
