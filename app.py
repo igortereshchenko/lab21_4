@@ -13,6 +13,8 @@ import json
 import plotly
 import plotly.graph_objs as go
 import os
+from sqlalchemy import func
+
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "jkm-vsnej9l-vm9sqm3:lmve")
@@ -86,9 +88,9 @@ def install():
     db = PostgresDb()
 
     uni1 = Univer(name="new_uni_1",
-               address="new_uni_1",
-               year=date.today(),
-               degree="uni")
+                  address="new_uni_1",
+                  year=date.today(),
+                  degree="uni")
 
     uni2 = Univer(name="new_uni_2",
                   address="new_uni_2",
@@ -109,6 +111,29 @@ def install():
     # delete from "Univer" where id=6;
 
     return redirect(url_for('root'))
+
+
+@app.route('/plot', methods=['GET', 'POST'])
+def plot():
+    pie_labels = []
+    data = {}
+
+    # scatter plot ---------------------------------------------------------------------------------------------------
+    query = db.sqlalchemy_session.query(func.count(Univer.id), Univer.year).group_by(Univer.year).all()
+
+    count_uni, year = zip(*query)
+
+    bar = go.Scatter(
+        x=year,
+        y=count_uni
+        # mode='markers'
+    )
+
+    data["bar"] = [bar]
+
+    json_data = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('plot.html', json=json_data)
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
