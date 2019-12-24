@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Dish name</th>
+            <th scope="col">Dish receipt</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for receipt in allReceipts%}
+        <tr>
+            <td> {{receipt.dishname_fk}}</td>
+            <td> {{receipt.receipt_content}}</td>
+            <td>
+                <a href="/edit_receipt?name={{receipt.dish}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_dish"
+                            data-user_id="{{receipt.dish}}">Edit
+                    </button>
+                </a>
+                <a href="/delete_receipt?name={{receipt.dish}}"
+                   title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_dish"
+                            data-user_id="{{receipt.dish}}">Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_receipt" title="new receipt button">
+                    <button type="button" class="btn btn-success" name="btn_new_receipt">New dish</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+</body>
+</html>

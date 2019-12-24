@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Restaurant name</th>
+            <th scope="col">Restaurant dishname</th>
+            <th scope="col">Restaurant country</th>
+            <th scope="col">Restaurant city</th>
+            <th scope="col">Restaurant address</th>
+            <th scope="col">Restaurant star</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for restaurant in allRestaurants%}
+        <tr>
+            <td> {{restaurant.name}}</td>
+            <td> {{restaurant.dishname_fk}}</td>
+            <td> {{restaurant.star}}</td>
+            <td> {{restaurant.country}}</td>
+            <td> {{restaurant.city}}</td>
+            <td> {{restaurant.address}}</td>
+
+            <td>
+                <a href="/edit_restaurant?name={{restaurant.name}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_dish"
+                            data-user_id="{{restaurant.dish}}">Edit
+                    </button>
+                </a>
+                <a href="/delete_restaurant?name={{restaurant.name}}"
+                   title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_dish"
+                            data-user_id="{{restaurant.name}}">Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_restaurant" title="new restaurant button">
+                    <button type="button" class="btn btn-success" name="btn_new_restaurant">New restaurant</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+</body>
+</html>

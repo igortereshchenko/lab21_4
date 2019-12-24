@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ingridientname </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ingridient in allIngridients%}
+        <tr>
+            <td> {{ingridient.ingridientname}}</td>
+            <td>
+                <a href="/edit_ingridient?name={{ingridient.dishname}}"
+                   title="edit button">
+                    <button type="button" class="btn btn-warning" name="btn_edit_dish"
+                            data-user_id="{{ingridient.ingridients}}">Edit
+                    </button>
+                </a>
+                <a href="/delete_ingridient?name={{ingridient.dishname}}"
+                   title="delete button">
+                    <button type="button" class="btn btn-danger" name="btn_delete_dish"
+                            data-user_id="{{ingridient.ingridients}}">Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="/new_ingridient" title="new receipt button">
+                    <button type="button" class="btn btn-success" name="btn_new_receipt">New dish</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+</body>
+</html>
