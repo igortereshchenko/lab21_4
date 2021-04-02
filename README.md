@@ -3,4 +3,4 @@
 
 ## Flask with heroku app
 
-# heroku: https://laba2db.herokuapp.com/
+# heroku: https://laba2db.herokuapp.com/ (not available now)
