@@ -1,0 +1,87 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="col-md-6 mx-auto">
+    <div class="card rounded-0">
+
+        <div class="card-header">
+            <h3 class="mb-0">{{form_name}}</h3>
+        </div>
+        <div class="card-body">
+
+            <form class="form"  action = "/{{action}}" method = post >
+
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.Site.label }}
+                    {{ form.Site(class_="form-control") }}
+
+                    {% if form.Site.errors%}
+                    <div class="alert alert-danger" role="alert">
+                        {% for message in form.Site
+                        .errors %}
+                        <div>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {%endif%}
+                </div>
+            <div class="form-group">
+                {{ form.Version.label }}
+                {{ form.Version(class_="form-control") }}
+
+                {% if form.Version.errors%}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in form.Version
+                    .errors %}
+                    <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+                {%endif%}
+            </div>
+                <div class="form-group">
+                        {{ form.Country.label }}
+                        {{ form.Country(class_="form-control") }}
+    
+                        {% if form.Country.errors%}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in form.Country
+                            .errors %}
+                            <div>{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                            {%endif%}
+                        </div>
+                    <div class="form-group">
+                        {{ form.Price.label }}
+                        {{ form.Price(class_="form-control") }}
+        
+                        {% if form.Price.errors%}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in form.Price
+                            .errors %}
+                            <div>{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                                {%endif%}
+                            </div>
+                            <div class="form-group">
+                        {{ form.Username.label }}
+                        {{ form.Username(class_="form-control") }}
+    
+                        {% if form.Username.errors%}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in form.Username
+                            .errors %}
+                            <div>{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                        {%endif%}
+                    </div>
+            {{ form.submit(class_="btn btn-success") }}
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
